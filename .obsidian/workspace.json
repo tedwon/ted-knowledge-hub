@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "99 Etc/Documentation/Obsidian.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Obsidian"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#English",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -94,17 +94,17 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "99 Etc/Documentation/Obsidian.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for README"
+              "title": "Backlinks for Obsidian"
             }
           },
           {
@@ -155,27 +155,27 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
-      "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "command-palette:Open command palette": false
     }
   },
-  "active": "2a8b1b9d577e8809",
+  "active": "42f07a84a9a2eac6",
   "lastOpenFiles": [
-    "99 Etc",
-    "01 AI/AI Prompts.md",
     "README.md",
-    "Daily Note.md",
+    "99 Etc/Documentation/Obsidian.md",
+    "99 Etc/Documentation/Creating a personal documentation site on GitHub.md",
     "00 Daily Note/Saturday, September 13th 2025.md",
+    "02 English/My English Speaking Script.md",
+    "01 AI/AI Prompts.md",
+    "99 Etc",
+    "Daily Note.md",
     "2025-09-13.md",
     "00 Daily Note",
     "Daily/Daily Note.md",
@@ -183,12 +183,10 @@
     "Daily/Daily.md",
     "01 AI",
     "Welcome.md",
-    "99 Etc/Documentation/Creating a personal documentation site on GitHub.md",
     "Untitled.md",
     "Untitled.canvas",
     "02 English",
     "99 Etc/Documentation",
-    "02 English/My English Speaking Script.md",
     "Daily"
   ]
 }
