@@ -57,6 +57,13 @@
             background-color: #fed7aa;
             color: #c2410c;
         }
+
+        .english-text {
+            font-size: 1.125rem;
+            /* 18px */
+            line-height: 1.75rem;
+            /* 28px */
+        }
     </style>
 </head>
 
@@ -301,7 +308,7 @@
                         textContainer.className = 'flex-1 mr-4';
 
                         const enText = document.createElement('p');
-                        enText.className = 'text-gray-800 font-medium';
+                        enText.className = 'english-text text-gray-800 font-medium';
                         enText.textContent = sentenceObj.en;
 
                         const koText = document.createElement('p');
@@ -335,7 +342,7 @@
                 const cards = sentenceContainer.getElementsByClassName('sentence-card');
                 let visibleCount = 0;
                 Array.from(cards).forEach(card => {
-                    const enText = card.querySelector('p.font-medium').textContent.toLowerCase();
+                    const enText = card.querySelector('p.english-text').textContent.toLowerCase();
                     const koText = card.querySelector('p.korean-text').textContent.toLowerCase();
                     if (enText.includes(query) || koText.includes(query)) {
                         card.style.display = 'flex';
