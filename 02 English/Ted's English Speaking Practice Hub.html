@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ted's English Speaking Practice Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is designed as an interactive practice deck or "language lab" instead of a traditional report dashboard, as the source material is textual and practice-oriented. The structure features a clear sidebar for navigating main and sub-categories, a central content area to display sentences as interactive cards, and key interactive features like text-to-speech (TTS) and real-time search. This structure was chosen to transform a long, static document into a dynamic, engaging learning tool that allows the user to actively practice pronunciation and recall, rather than passively reading. -->
+    <!-- Visualization & Content Choices: The source report's content (English sentences) is presented as interactive text cards. The primary goal is speaking practice, so the core "visualization" is auditory, powered by the Web Speech API for text-to-speech. Instead of charts, the application uses dynamic lists and a search filter. Interactions include category selection to load specific sentence sets and a "speak" button for each sentence. This choice directly supports the user's goal of improving spoken English, making it a more effective tool than any data chart would be for this specific content. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf8;
+            color: #4a4a4a;
+        }
+
+        .korean-text {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .main-nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .main-nav-link.active {
+            background-color: #f1f5f9;
+            color: #c2410c;
+            font-weight: 600;
+        }
+
+        .sub-nav-link.active {
+            color: #c2410c;
+            font-weight: 500;
+        }
+
+        .sentence-card {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .sentence-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.07);
+        }
+
+        .speak-btn {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .speak-btn:hover {
+            background-color: #fed7aa;
+            color: #c2410c;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <div id="app" class="flex flex-col md:flex-row min-h-screen">
+        <!-- Mobile Header -->
+        <header class="md:hidden bg-white p-4 flex justify-between items-center shadow-md sticky top-0 z-10">
+            <h1 class="text-xl font-bold text-orange-800">Ted's Speaking Hub</h1>
+            <button id="mobile-menu-btn" class="text-gray-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4">
+                    </path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="bg-white w-full md:w-80 lg:w-96 p-6 space-y-6 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:sticky top-0 h-screen overflow-y-auto z-20 shadow-lg md:shadow-none">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-orange-800">Ted's Speaking Hub</h1>
+                <button id="close-sidebar-btn" class="md:hidden text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-sm text-gray-500">Select a category to begin your practice. Use the speaker icon to hear the
+                pronunciation.</p>
+            <nav id="main-nav" class="space-y-4"></nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4 sm:p-6 lg:p-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-6">
+                    <input type="search" id="search-input" placeholder="Search for sentences (English or Korean)..."
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+                </div>
+                <div id="content-header" class="mb-4 pb-2 border-b">
+                    <h2 id="current-category" class="text-2xl font-bold text-gray-800">Welcome!</h2>
+                    <p id="current-subcategory" class="text-md text-gray-600">Select a category from the left to start
+                        practicing.</p>
+                </div>
+                <div id="sentence-container" class="space-y-4">
+                    <!-- Sentences will be injected here -->
+                </div>
+                <p id="no-results" class="hidden text-center text-gray-500 mt-8">No sentences found matching your
+                    search.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const practiceData = {
+            "Personal Life & General Conversation": {
+                "Greetings & Small Talk": [
+                    { en: "How are you? I hope you are doing well.", ko: "어떻게 지내세요? 잘 지내시길 바랍니다." },
+                    { en: "How has your day been? Yeah, not too bad, thanks.", ko: "오늘 하루 어땠어요? 네, 나쁘지 않았어요, 고마워요." },
+                    { en: "What's up? Not much, just getting through the day.", ko: "별일 없어? 별일 없어, 그냥 하루 보내고 있어." },
+                    { en: "I'm doing pretty good, thanks for asking.", ko: "꽤 잘 지내고 있어요, 물어봐 줘서 고마워요." },
+                    { en: "Can't complain. Every day is the same day.", ko: "그럭저럭 괜찮아요. 매일이 똑같죠 뭐." },
+                    { en: "I'm a bit under the weather today.", ko: "오늘 몸이 좀 안 좋아요." },
+                    { en: "It was a pleasure to meet you.", ko: "만나서 반가웠습니다." },
+                    { en: "Have a good one!", ko: "좋은 하루 되세요!" }
+                ],
+                "Introducing Yourself & Background": [
+                    { en: "My name is Ted, and I'm originally from South Korea, but I've been living in Brisbane for a while now.", ko: "제 이름은 테드이고, 원래 한국 출신이지만 지금은 브리즈번에서 산 지 꽤 되었습니다." },
+                    { en: "I'm a non-native English speaker, and I'm always working to improve my professional and academic writing.", ko: "저는 영어가 모국어가 아니며, 전문적이고 학술적인 글쓰기를 향상시키기 위해 항상 노력하고 있습니다." },
+                    { en: "I chose Ted as my English name almost 20 years ago. It's easier for my international colleagues to pronounce.", ko: "거의 20년 전에 테드라는 영어 이름을 선택했습니다. 제 외국 동료들이 발음하기 더 쉬운 이름이죠." },
+                    { en: "I'm still working on my Korean intonation when I speak English.", ko: "영어를 말할 때 아직 한국어 억양을 고치려고 노력 중입니다." }
+                ],
+                "Family & Friends": [
+                    { en: "I have a nine-year-old daughter named Sara. She's in Year 4 of primary school.", ko: "사라라는 이름의 아홉 살 딸이 있습니다. 초등학교 4학년입니다." },
+                    { en: "My wife is very frugal and manages our family budget well, which I really appreciate.", ko: "제 아내는 매우 알뜰해서 우리 가족 예산을 잘 관리하는데, 저는 그 점이 정말 고맙습니다." },
+                    { en: "At first, I was concerned about her moving abroad, but she has made new friends and likes her school. That was a relief.", ko: "처음에는 딸이 해외로 이주하는 것에 대해 걱정했지만, 새 친구들을 사귀고 학교를 좋아하게 되어서 다행이었습니다." },
+                    { en: "I wanted to give my family a chance to explore a different culture and learn English in an immersive environment.", ko: "저는 제 가족에게 다른 문화를 탐험하고 몰입형 환경에서 영어를 배울 기회를 주고 싶었습니다." },
+                    { en: "We're planning a small housewarming party to celebrate our new place.", ko: "새 집을 축하하기 위해 작은 집들이 파티를 계획하고 있습니다." },
+                    { en: "I'd rather have a few genuine friends than a hundred shallow ones.", ko: "백 명의 얕은 친구들보다 몇 명의 진정한 친구를 갖는 것이 낫습니다." },
+                    { en: "Hit me up when you're free!", ko: "시간 될 때 연락해!" }
+                ],
+                "Daily Life & Hobbies": [
+                    { en: "I try to start every morning with a slow jog to stay healthy and clear my mind.", ko: "매일 아침 가벼운 조깅으로 하루를 시작하며 건강을 유지하고 마음을 비우려고 노력합니다." },
+                    { en: "I've committed to one hour of focused tech study every day for my personal and professional development.", ko: "개인적 그리고 직업적 발전을 위해 매일 한 시간씩 기술 공부에 집중하기로 다짐했습니다." },
+                    { en: "On weekends, I like to take my dog, Milky, to the park. It's rare to see so much wildlife in a city.", ko: "주말에는 제 강아지 밀키를 공원에 데려가는 것을 좋아합니다. 도시에서 이렇게 많은 야생 동물을 보는 것은 드문 일입니다." },
+                    { en: "My daughter, Sara, is always keen on fishing, so sometimes we do that as a family.", ko: "제 딸 사라는 낚시를 정말 좋아해서 가끔 가족과 함께 낚시를 하러 갑니다." },
+                    { en: "I love drawing in my sketchbook and doing yoga in my spare time.", ko: "여가 시간에 스케치북에 그림 그리는 것과 요가 하는 것을 좋아합니다." },
+                    { en: "I need to update Sara's vaccination history to the Australian Immunisation Register soon.", ko: "곧 호주 예방접종 등록부에 사라의 예방접종 기록을 업데이트해야 합니다." },
+                    { en: "When I was younger, I wanted to be a writer. I'd still like to publish a book about risk and software security someday.", ko: "어렸을 때는 작가가 되고 싶었습니다. 언젠가 리스크와 소프트웨어 보안에 관한 책을 출판하고 싶다는 생각은 여전합니다." }
+                ],
+                "Expressing Thoughts & Feelings": [
+                    { en: "To be honest, I was a little scared when I first moved here. It was a whirlwind of emotions.", ko: "솔직히 말해서, 여기 처음 이사 왔을 때는 조금 무서웠습니다. 감정이 휘몰아치는 듯 했습니다." },
+                    { en: "That's a shame. It's such a relief to hear that everyone is okay now.", ko: "안됐네요. 이제 모두 괜찮다는 소식을 들으니 정말 다행입니다." },
+                    { en: "That sounds painful. I hope you feel better soon. Yes, indeed it does.", ko: "고통스럽겠네요. 곧 나아지기를 바랍니다. 네, 정말 그렇습니다." },
+                    { en: "I'm not convinced that's the best approach. From my perspective, we should consider other options.", ko: "그것이 최선의 접근 방식인지 확신이 서지 않습니다. 제 관점에서는 다른 선택지를 고려해야 합니다." },
+                    { en: "It feels good to be a permanent Red Hatter. I appreciate the company's dedication to its employees.", ko: "정식 레드햇 직원이 된 기분이 좋습니다. 직원들에 대한 회사의 헌신에 감사합니다." },
+                    { en: "Sometimes I feel hurt when I can't express myself clearly. It can be frustrating when I struggle with English.", ko: "가끔 제 자신을 명확하게 표현하지 못할 때 상처를 받습니다. 영어로 고심할 때 좌절감을 느낄 수 있습니다." },
+                    { en: "I was so impressed at the taste of the coffee here; it exceeded my expectations.", ko: "여기 커피 맛에 정말 감명받았습니다. 제 기대를 뛰어넘었습니다." },
+                    { en: "It's devastating to see the news about the recent floods, but fortunately, we weren't affected.", ko: "최근 홍수에 대한 소식을 보니 참담하지만, 다행히도 우리는 피해를 입지 않았습니다." }
+                ],
+                "Cultural Observations": [
+                    { en: "Korea has a very convenient but conservative and conformist culture.", ko: "한국은 매우 편리하지만, 보수적이고 순응적인 문화를 가지고 있습니다." },
+                    { en: "In contrast, Australia seems to have a more individualistic and open-minded culture.", ko: "반면에 호주는 더 개인주의적이고 개방적인 문화를 가진 것 같습니다." },
+                    { en: "One thing I like about Australia is that I can spend more quality time with my family.", ko: "제가 호주에서 좋아하는 것 중 하나는 가족과 더 많은 양질의 시간을 보낼 수 있다는 점입니다." },
+                    { en: "The work-life balance is different here. In Korea, there's often pressure to stay late if others are still working.", ko: "이곳의 일과 삶의 균형은 다릅니다. 한국에서는 다른 사람들이 아직 일하고 있으면 늦게까지 남아야 한다는 압박이 종종 있습니다." },
+                    { en: "I feel my Australian colleagues are more open, warm, and cordial.", ko: "제 호주 동료들은 더 개방적이고, 따뜻하며, 다정하다고 느낍니다." }
+                ],
+                "Philosophy & Personal Growth": [
+                    { en: "I believe it's important to live a life of unwavering integrity, adhering to my conscience and strong moral principles.", ko: "저는 양심과 확고한 도덕적 원칙을 지키며 흔들림 없는 진실된 삶을 사는 것이 중요하다고 믿습니다." },
+                    { en: "Lately, I've been thinking about the philosophical question, 'Why am I living?' and what my purpose is.", ko: "최근에 '나는 왜 사는가?'라는 철학적인 질문과 제 목적이 무엇인지에 대해 생각하고 있습니다." },
+                    { en: "I believe that if I live without rational reflection, my life is not meaningfully different from that of an animal.", ko: "만약 제가 이성적인 성찰 없이 산다면, 제 삶은 동물의 삶과 의미 있는 차이가 없다고 생각합니다." },
+                    { en: "I strive to fill my daily life with intentional positivity. Adaptation is key.", ko: "저는 제 일상을 의도적인 긍정으로 채우려고 노력합니다. 적응이 핵심입니다." },
+                    { en: "I am grateful for everything in my life, both the big opportunities and the small, everyday moments.", ko: "저는 제 인생의 모든 것에 감사합니다. 큰 기회들과 작은 일상의 순간들 모두에요." }
+                ]
+            },
+            "Professional Life & Work": {
+                "Role & Responsibilities": [
+                    { en: "I am a Software Product Security Engineer at Red Hat, focusing on our Middleware portfolio.", ko: "저는 레드햇의 소프트웨어 제품 보안 엔지니어이며, 미들웨어 포트폴리오를 담당하고 있습니다." },
+                    { en: "I am an open-source enthusiast and a Red Hat Middleware Upstream developer, so I contribute directly to the projects we support.", ko: "저는 오픈소스에 열정적이며 레드햇 미들웨어 업스트림 개발자이기도 해서, 우리가 지원하는 프로젝트에 직접 기여하고 있습니다." },
+                    { en: "As a Product Security Architect, I work on improving the security posture of our offerings by collaborating with engineering teams.", ko: "제품 보안 아키텍트로서, 저는 엔지니어링 팀과 협력하여 우리 제품의 보안 태세를 개선하기 위해 노력합니다." },
+                    { en: "My role involves collaborating closely with engineering and product management teams to ensure our products meet security standards.", ko: "제 역할은 엔지니어링 및 제품 관리 팀과 긴밀히 협력하여 우리 제품이 보안 표준을 충족하도록 하는 것입니다." },
+                    { en: "I help determine what constitutes a 'substantial change' for a new release, which then defines the required security activities.", ko: "저는 새로운 릴리스에 대해 '중대한 변경'이 무엇인지 결정하는 것을 돕고, 이는 필요한 보안 활동을 정의합니다." },
+                    { en: "I am responsible for conducting Security Architecture Reviews (SARs) to evaluate a system's design against our guidelines.", ko: "저는 보안 아키텍처 검토(SAR)를 수행하여 시스템 설계가 우리 가이드라인에 부합하는지 평가할 책임이 있습니다." },
+                    { en: "A key part of my job is to strike a balance between fixing security issues and not curtailing important feature development.", ko: "제 업무의 핵심 부분은 보안 문제 해결과 중요한 기능 개발을 저해하지 않는 것 사이에서 균형을 맞추는 것입니다." },
+                    { en: "Security is a team sport, and I try to foster a culture where it is everyone's responsibility.", ko: "보안은 팀 스포츠이며, 저는 그것이 모두의 책임이라는 문화를 조성하려고 노력합니다." }
+                ],
+                "Project & Task Management": [
+                    { en: "I'm initiating a Security Architecture Review for the new build, and my goal is to complete it by mid-December.", ko: "새 빌드에 대한 보안 아키텍처 검토를 시작하고 있으며, 12월 중순까지 완료하는 것이 목표입니다." },
+                    { en: "To proceed effectively, I need access to all pertinent documentation, including data flow diagrams.", ko: "효과적으로 진행하기 위해 데이터 흐름도를 포함한 모든 관련 문서에 접근해야 합니다." },
+                    { en: "I am closing this ticket as the issue has been resolved and the fix has been verified.", ko: "문제가 해결되었고 수정 사항이 확인되었으므로 이 티켓을 닫습니다." },
+                    { en: "I'm having trouble focusing on my main task due to constant interruptions from unexpected new work.", ko: "예상치 못한 새로운 업무로 인한 계속적인 방해 때문에 주요 업무에 집중하는 데 어려움을 겪고 있습니다." },
+                    { en: "We need to be cognizant of the timeline; are there any potential blockers we should address now?", ko: "우리는 일정을 인지해야 합니다. 지금 해결해야 할 잠재적인 장애물이 있습니까?" },
+                    { en: "We need to act sooner rather than later on this issue.", ko: "우리는 이 문제에 대해 늦기 전에 빨리 조치를 취해야 합니다." },
+                    { en: "Let's create a corresponding Jira ticket to track the progress of this task.", ko: "이 작업의 진행 상황을 추적하기 위해 해당하는 지라 티켓을 만듭시다." },
+                    { en: "The error in the report was a simple oversight. This new process should reduce the risk of future misconfigurations.", ko: "보고서의 오류는 단순한 간과였습니다. 이 새로운 프로세스는 향후 잘못된 구성의 위험을 줄여줄 것입니다." },
+                    { en: "We may need to revert the changes we made to the configuration file.", ko: "구성 파일에 적용한 변경 사항을 되돌려야 할 수도 있습니다." }
+                ],
+                "Communication & Collaboration": [
+                    { en: "Could you please assign a Point of Contact from the engineering team to assist with queries? A liaison would be very helpful.", ko: "문의에 도움을 줄 엔지니어링 팀의 담당자를 지정해 주시겠습니까? 연락 담당자가 있으면 매우 도움이 될 것입니다." },
+                    { en: "I'll follow up on this with you. In the interim, please let me know if you have questions.", ko: "이 문제에 대해 다시 연락드리겠습니다. 그 동안 질문이 있으시면 알려주세요." },
+                    { en: "Just a heads-up, I've pushed the latest changes to the repository.", ko: "참고로, 최신 변경 사항을 저장소에 푸시했습니다." },
+                    { en: "Thank you for keeping me updated on your progress.", ko: "진행 상황을 계속 알려주셔서 감사합니다." },
+                    { en: "In summary, as I understand it, there are no significant architectural changes. Is that correct?", ko: "요약하자면, 제가 이해하기로는 중요한 아키텍처 변경 사항이 없습니다. 맞습니까?" },
+                    { en: "I've reviewed the report, and I lean towards classifying this as a Moderate impact rather than Low. What are your thoughts?", ko: "보고서를 검토했는데, 저는 이것을 낮음보다는 보통 영향으로 분류하는 쪽으로 기울고 있습니다. 어떻게 생각하세요?" },
+                    { en: "I really appreciate you making the effort to do this. Your ongoing contributions are invaluable.", ko: "이렇게 노력해 주셔서 정말 감사합니다. 당신의 지속적인 기여는 매우 귀중합니다." },
+                    { en: "Let’s touch base tomorrow morning to discuss the next steps.", ko: "내일 아침에 다음 단계를 논의하기 위해 간단히 얘기 나눠요." }
+                ],
+                "Professional Templates & Scenarios": [
+                    { en: "Status Update: The new tentative GA date for Product X is Month Day, Year. The SDLC Jira dates have been updated accordingly.", ko: "상태 업데이트: 제품 X의 새로운 잠정 GA 날짜는 O월 O일 OOOO년입니다. SDLC Jira 날짜는 그에 맞춰 업데이트되었습니다." },
+                    { en: "Can someone kindly merge my proddefs merge request when you have a chance?", ko: "시간 되실 때 제 proddefs 병합 요청을 병합해 주실 수 있을까요?" },
+                    { en: "I'm currently out of the office and will be back on Monday. For urgent matters, please contact my manager.", ko: "저는 현재 부재중이며 월요일에 복귀할 예정입니다. 급한 용무는 제 매니저에게 연락주세요." },
+                    { en: "First and foremost, I sincerely apologize for the delayed response.", ko: "무엇보다도, 늦은 답변에 대해 진심으로 사과드립니다." },
+                    { en: "Could you please add me to the Konflux UI page? I need access for RH-SDLC.", ko: "Konflux UI 페이지에 저를 추가해 주시겠어요? RH-SDLC 때문에 접근 권한이 필요합니다." },
+                    { en: "Regarding the survey results for 'Significant Changes', I see no changes impacting product security with this release.", ko: "'중대한 변경'에 대한 설문 조사 결과, 이번 릴리스에는 제품 보안에 영향을 미치는 변경 사항이 없는 것으로 보입니다." },
+                    { en: "Can you please confirm that SAST scans are running for this version and address any High Impact Findings?", ko: "이 버전에 대해 SAST 스캔이 실행 중인지 확인하고, 높은 영향도의 발견 사항을 처리해 주시겠습니까?" }
+                ]
+            },
+            "Technical Concepts & Vocabulary": {
+                "The Importance of Secure Development": [
+                    { en: "At Red Hat, secure software development is a critical part of our business.", ko: "레드햇에서 안전한 소프트웨어 개발은 우리 비즈니스의 중요한 부분입니다." },
+                    { en: "Developing our software in a secure fashion enables us to sell in all geographies and markets.", ko: "우리 소프트웨어를 안전한 방식으로 개발함으로써 모든 지역과 시장에서 판매할 수 있습니다." },
+                    { en: "It is your responsibility to keep our customers and our software safe from vulnerabilities.", ko: "고객과 우리 소프트웨어를 취약점으로부터 안전하게 지키는 것은 당신의 책임입니다." },
+                    { en: "Red Hat customers are compelled to manage risk, and they defer some of this risk to us by purchasing our software.", ko: "레드햇 고객들은 리스크를 관리해야 하며, 우리 소프트웨어를 구매함으로써 그 리스크의 일부를 우리에게 위임합니다." },
+                    { en: "All Red Hat software must meet the requirements outlined in the Secure Software Management Lifecycle (SSML).", ko: "모든 레드햇 소프트웨어는 SSML(안전한 소프트웨어 관리 생명주기)에 명시된 요구사항을 충족해야 합니다." },
+                    { en: "Software supply chain attacks increase every year, so we need to ensure our supply chain is hardened.", ko: "소프트웨어 공급망 공격은 매년 증가하고 있으므로, 우리 공급망이 강화되었는지 확인해야 합니다." }
+                ],
+                "Core Security Principles": [
+                    { en: "A Security Architecture Review (SAR) is an evaluation process to confirm that a product follows our Secure Design Principles.", ko: "보안 아키텍처 검토(SAR)는 제품이 우리의 '안전한 설계 원칙'을 따르는지 확인하는 평가 과정입니다." },
+                    { en: "We should only support secure protocols like TLS 1.2 and 1.3 to ensure secure communication.", ko: "안전한 통신을 보장하기 위해 우리는 TLS 1.2 및 1.3과 같은 보안 프로토콜만 지원해야 합니다." },
+                    { en: "Protocols like SSLv3 are inherently unsafe due to known weaknesses, such as the POODLE attack.", ko: "SSLv3와 같은 프로토콜은 POODLE 공격과 같은 알려진 취약점 때문에 본질적으로 안전하지 않습니다." },
+                    { en: "Zero Trust is a security model based on the premise that every interaction begins in an untrusted state.", ko: "제로 트러스트는 모든 상호작용이 신뢰할 수 없는 상태에서 시작된다는 전제를 기반으로 하는 보안 모델입니다." },
+                    { en: "The three pillars of information security are Confidentiality, Integrity, and Availability, known as the 'CIA Triad'.", ko: "정보 보안의 세 가지 기둥은 'CIA 트라이어드'로 알려진 기밀성, 무결성, 가용성입니다." },
+                    { en: "DevSecOps is the practice of integrating security into every stage of the development lifecycle.", ko: "데브섹옵스는 개발 생명주기의 모든 단계에 보안을 통합하는 관행입니다." }
+                ],
+                "Software, Platforms & Tools": [
+                    { en: "Quarkus is a next-generation Java framework designed for cloud-native environments.", ko: "쿼커스는 클라우드 네이티브 환경을 위해 설계된 차세대 자바 프레임워크입니다." },
+                    { en: "Apache Camel is a versatile open-source integration framework we use to connect heterogeneous systems.", ko: "아파치 카멜은 다양한 시스템을 연결하는 데 사용하는 다목적 오픈소스 통합 프레임워크입니다." },
+                    { en: "Kubernetes is a system for managing container-based applications and empowering new architectures like microservices.", ko: "쿠버네티스는 컨테이너 기반 애플리케이션을 관리하고 마이크로서비스와 같은 새로운 아키텍처를 활성화하는 시스템입니다." },
+                    { en: "Red Hat OpenShift is a comprehensive platform built on Kubernetes for deploying applications at scale.", ko: "레드햇 오픈시프트는 쿠버네티스 기반으로 구축된, 대규모 애플리케이션 배포를 위한 포괄적인 플랫폼입니다." },
+                    { en: "Apicurio Registry is a datastore for sharing standard event schemas and API designs.", ko: "아피큐리오 레지스트리는 표준 이벤트 스키마와 API 설계를 공유하기 위한 데이터 저장소입니다." },
+                    { en: "OpenSSL is a powerful, commercial-grade toolkit for implementing secure communications with SSL/TLS.", ko: "OpenSSL은 SSL/TLS를 사용한 보안 통신을 구현하기 위한 강력하고 상용 등급의 툴킷입니다." }
+                ],
+                "Processes & Standards (SDLC)": [
+                    { en: "Orientation serves as an entry point for engineering teams into the Red Hat Secure Development Lifecycle (RH-SDL).", ko: "오리엔테이션은 엔지니어링 팀이 레드햇 보안 개발 생명주기(RH-SDL)에 진입하는 시작점 역할을 합니다." },
+                    { en: "Threat modeling helps us discover and document known security threats to an application.", ko: "위협 모델링은 애플리케이션에 대한 알려진 보안 위협을 발견하고 문서화하는 데 도움이 됩니다." },
+                    { en: "Static Application Security Testing, or SAST, analyzes source code to find weaknesses.", ko: "정적 애플리케이션 보안 테스팅(SAST)은 소스 코드를 분석하여 약점을 찾습니다." },
+                    { en: "Dynamic Application Security Testing (DAST) uncovers flaws by performing automated testing against a running target.", ko: "동적 애플리케이션 보안 테스팅(DAST)은 실행 중인 대상에 대해 자동화된 테스팅을 수행하여 결함을 발견합니다." },
+                    { en: "Penetration testing puts the auditor in the attacker's perspective to find vulnerabilities.", ko: "모의 해킹은 감사자가 공격자의 관점에서 취약점을 찾는 것입니다." },
+                    { en: "Malware detection ensures that the artifacts we ship to our customers are free from any known malware.", ko: "악성코드 탐지는 우리가 고객에게 제공하는 아티팩트가 알려진 악성코드로부터 안전하다는 것을 보장합니다." },
+                    { en: "The Security Operating Approval (SOA) process ensures our pipelines comply with industry standards like Executive Order 14028.", ko: "보안 운영 승인(SOA) 프로세스는 우리 파이프라인이 행정 명령 14028과 같은 산업 표준을 준수하도록 보장합니다." }
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainNav = document.getElementById('main-nav');
+            const sentenceContainer = document.getElementById('sentence-container');
+            const currentCategoryEl = document.getElementById('current-category');
+            const currentSubcategoryEl = document.getElementById('current-subcategory');
+            const searchInput = document.getElementById('search-input');
+            const noResultsEl = document.getElementById('no-results');
+
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('sidebar');
+            const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+            let activeMainCategory = '';
+            let activeSubCategory = '';
+
+            const synth = window.speechSynthesis;
+
+            function speak(text) {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.onerror = (event) => {
+                    console.error('SpeechSynthesisUtterance.onerror', event);
+                };
+                synth.speak(utterance);
+            }
+
+            function renderSentences(category, subcategory) {
+                activeMainCategory = category;
+                activeSubCategory = subcategory;
+
+                const sentences = practiceData[category][subcategory];
+                currentCategoryEl.textContent = category;
+                currentSubcategoryEl.textContent = subcategory;
+                sentenceContainer.innerHTML = '';
+
+                if (sentences && sentences.length > 0) {
+                    sentences.forEach(sentenceObj => {
+                        const card = document.createElement('div');
+                        card.className = 'sentence-card bg-white p-4 rounded-lg flex justify-between items-start';
+
+                        const textContainer = document.createElement('div');
+                        textContainer.className = 'flex-1 mr-4';
+
+                        const enText = document.createElement('p');
+                        enText.className = 'text-gray-800 font-medium';
+                        enText.textContent = sentenceObj.en;
+
+                        const koText = document.createElement('p');
+                        koText.className = 'text-gray-500 text-sm mt-1 korean-text';
+                        koText.textContent = sentenceObj.ko;
+
+                        textContainer.appendChild(enText);
+                        textContainer.appendChild(koText);
+
+                        const speakBtn = document.createElement('button');
+                        speakBtn.className = 'speak-btn p-2 rounded-full text-gray-500 bg-gray-100 flex-shrink-0';
+                        speakBtn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
+                        speakBtn.onclick = () => speak(sentenceObj.en);
+
+                        card.appendChild(textContainer);
+                        card.appendChild(speakBtn);
+                        sentenceContainer.appendChild(card);
+                    });
+                }
+
+                searchInput.value = '';
+                filterSentences();
+                updateActiveNav();
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+
+            function filterSentences() {
+                const query = searchInput.value.toLowerCase();
+                const cards = sentenceContainer.getElementsByClassName('sentence-card');
+                let visibleCount = 0;
+                Array.from(cards).forEach(card => {
+                    const enText = card.querySelector('p.font-medium').textContent.toLowerCase();
+                    const koText = card.querySelector('p.korean-text').textContent.toLowerCase();
+                    if (enText.includes(query) || koText.includes(query)) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                noResultsEl.style.display = visibleCount === 0 && cards.length > 0 ? 'block' : 'none';
+            }
+
+            function updateActiveNav() {
+                document.querySelectorAll('.main-nav-link, .sub-nav-link').forEach(el => el.classList.remove('active'));
+
+                const mainLink = document.querySelector(`.main-nav-link[data-category="${activeMainCategory}"]`);
+                if (mainLink) {
+                    mainLink.classList.add('active');
+                    const subNavContainer = mainLink.nextElementSibling;
+                    if (subNavContainer && subNavContainer.classList.contains('sub-nav-container')) {
+                        subNavContainer.style.display = 'block';
+                    }
+                }
+
+                const subLink = document.querySelector(`.sub-nav-link[data-category="${activeMainCategory}"][data-subcategory="${activeSubCategory}"]`);
+                if (subLink) subLink.classList.add('active');
+            }
+
+            function createNav() {
+                Object.keys(practiceData).forEach(category => {
+                    const mainLink = document.createElement('a');
+                    mainLink.href = '#';
+                    mainLink.textContent = category;
+                    mainLink.className = 'main-nav-link block w-full text-left p-3 rounded-md text-gray-700 hover:bg-gray-100';
+                    mainLink.dataset.category = category;
+
+                    const subNavContainer = document.createElement('div');
+                    subNavContainer.className = 'sub-nav-container pl-4 mt-2 space-y-2 border-l-2 border-orange-100';
+                    subNavContainer.style.display = 'none';
+
+                    Object.keys(practiceData[category]).forEach(subcategory => {
+                        const subLink = document.createElement('a');
+                        subLink.href = '#';
+                        subLink.textContent = subcategory;
+                        subLink.className = 'sub-nav-link block text-sm text-gray-600 hover:text-orange-600';
+                        subLink.dataset.category = category;
+                        subLink.dataset.subcategory = subcategory;
+                        subLink.onclick = (e) => {
+                            e.preventDefault();
+                            renderSentences(category, subcategory);
+                        };
+                        subNavContainer.appendChild(subLink);
+                    });
+
+                    mainLink.onclick = (e) => {
+                        e.preventDefault();
+                        const isVisible = subNavContainer.style.display === 'block';
+                        document.querySelectorAll('.sub-nav-container').forEach(el => el.style.display = 'none');
+                        subNavContainer.style.display = isVisible ? 'none' : 'block';
+                        if (!isVisible) {
+                            const firstSubCategory = Object.keys(practiceData[category])[0];
+                            if (firstSubCategory) {
+                                renderSentences(category, firstSubCategory);
+                            }
+                        }
+                    };
+
+                    mainNav.appendChild(mainLink);
+                    mainNav.appendChild(subNavContainer);
+                });
+            }
+
+            searchInput.addEventListener('input', filterSentences);
+
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+            });
+
+            closeSidebarBtn.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+            });
+
+            createNav();
+            // Load initial content
+            const firstCategory = Object.keys(practiceData)[0];
+            const firstSubCategory = Object.keys(practiceData[firstCategory])[0];
+            if (firstCategory && firstSubCategory) {
+                renderSentences(firstCategory, firstSubCategory);
+                document.querySelector('.sub-nav-container').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

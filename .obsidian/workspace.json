@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "99 Etc/Documentation/Obsidian.md",
+                "file": "02 English/Ted's English Speaking Practice Sentences.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Obsidian"
+              "title": "Ted's English Speaking Practice Sentences"
+            }
+          },
+          {
+            "id": "c4d303a33b34c474",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "02 English/Untitled.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
             }
           }
         ]
@@ -53,7 +67,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#English",
+                "query": "think ahead",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -94,7 +108,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "99 Etc/Documentation/Obsidian.md",
+                "file": "02 English/Ted's English Speaking Practice Sentences.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +118,7 @@
                 "unlinkedCollapsed": false
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Obsidian"
+              "title": "Backlinks for Ted's English Speaking Practice Sentences"
             }
           },
           {
@@ -168,12 +182,17 @@
   },
   "active": "42f07a84a9a2eac6",
   "lastOpenFiles": [
+    "02 English/Untitled.md",
+    "02 English/Ted's English Speaking Practice Sentences.md",
+    "01 AI/Gemini Gems.md",
+    "02 English/Ted's English Speaking Practice Hub.html",
+    "00 Daily Note/Sunday, September 14th 2025.md",
+    "02 English/a.html",
+    "01 AI/AI Prompts.md",
     "README.md",
+    "00 Daily Note/Saturday, September 13th 2025.md",
     "99 Etc/Documentation/Obsidian.md",
     "99 Etc/Documentation/Creating a personal documentation site on GitHub.md",
-    "00 Daily Note/Saturday, September 13th 2025.md",
-    "02 English/My English Speaking Script.md",
-    "01 AI/AI Prompts.md",
     "99 Etc",
     "Daily Note.md",
     "2025-09-13.md",
@@ -183,7 +202,6 @@
     "Daily/Daily.md",
     "01 AI",
     "Welcome.md",
-    "Untitled.md",
     "Untitled.canvas",
     "02 English",
     "99 Etc/Documentation",
