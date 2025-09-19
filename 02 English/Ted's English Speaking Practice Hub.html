@@ -214,24 +214,24 @@
                     { en: "I really appreciate you making the effort to do this. Your ongoing contributions are invaluable.", ko: "이렇게 노력해 주셔서 정말 감사합니다. 당신의 지속적인 기여는 매우 귀중합니다." },
                     { en: "Let’s touch base tomorrow morning to discuss the next steps.", ko: "내일 아침에 다음 단계를 논의하기 위해 간단히 얘기 나눠요." }
                 ],
-                "Professional Templates & Scenarios": [
-                    { en: "Status Update: The new tentative GA date for Product X is Month Day, Year. The SDLC Jira dates have been updated accordingly.", ko: "상태 업데이트: 제품 X의 새로운 잠정 GA 날짜는 O월 O일 OOOO년입니다. SDLC Jira 날짜는 그에 맞춰 업데이트되었습니다." },
+                "Work Scenarios & Templates": [
+                    { en: "Status Update: The new tentative GA date for Product X is September 9, 2025. The SDLC Jira dates have been updated accordingly.", ko: "상태 업데이트: 제품 X의 새로운 잠정 GA 날짜는 2025년 9월 9일입니다. SDLC Jira 날짜는 그에 맞춰 업데이트되었습니다." },
                     { en: "Can someone kindly merge my proddefs merge request when you have a chance?", ko: "시간 되실 때 제 proddefs 병합 요청을 병합해 주실 수 있을까요?" },
                     { en: "I'm currently out of the office and will be back on Monday. For urgent matters, please contact my manager.", ko: "저는 현재 부재중이며 월요일에 복귀할 예정입니다. 급한 용무는 제 매니저에게 연락주세요." },
                     { en: "First and foremost, I sincerely apologize for the delayed response.", ko: "무엇보다도, 늦은 답변에 대해 진심으로 사과드립니다." },
-                    { en: "Could you please add me to the Konflux UI page? I need access for RH-SDLC.", ko: "Konflux UI 페이지에 저를 추가해 주시겠어요? RH-SDLC 때문에 접근 권한이 필요합니다." },
-                    { en: "Regarding the survey results for 'Significant Changes', I see no changes impacting product security with this release.", ko: "'중대한 변경'에 대한 설문 조사 결과, 이번 릴리스에는 제품 보안에 영향을 미치는 변경 사항이 없는 것으로 보입니다." },
+                    { en: "Could you please add me to the Konflux UI page? I need read-only access for RH-SDLC.", ko: "Konflux UI 페이지에 저를 추가해 주시겠어요? RH-SDLC 때문에 읽기 전용 접근 권한이 필요합니다." },
+                    { en: "Regarding the survey for 'Significant Changes', I see no changes impacting product security with this release.", ko: "'중대한 변경'에 대한 설문 조사 결과, 이번 릴리스에는 제품 보안에 영향을 미치는 변경 사항이 없는 것으로 보입니다." },
                     { en: "Can you please confirm that SAST scans are running for this version and address any High Impact Findings?", ko: "이 버전에 대해 SAST 스캔이 실행 중인지 확인하고, 높은 영향도의 발견 사항을 처리해 주시겠습니까?" }
                 ]
             },
             "Technical Concepts & Vocabulary": {
-                "The Importance of Secure Development": [
+                "Secure Development Philosophy": [
                     { en: "At Red Hat, secure software development is a critical part of our business.", ko: "레드햇에서 안전한 소프트웨어 개발은 우리 비즈니스의 중요한 부분입니다." },
                     { en: "Developing our software in a secure fashion enables us to sell in all geographies and markets.", ko: "우리 소프트웨어를 안전한 방식으로 개발함으로써 모든 지역과 시장에서 판매할 수 있습니다." },
-                    { en: "It is your responsibility to keep our customers and our software safe from vulnerabilities.", ko: "고객과 우리 소프트웨어를 취약점으로부터 안전하게 지키는 것은 당신의 책임입니다." },
+                    { en: "It is our responsibility to keep our customers and our software safe from vulnerabilities.", ko: "고객과 우리 소프트웨어를 취약점으로부터 안전하게 지키는 것은 우리의 책임입니다." },
                     { en: "Red Hat customers are compelled to manage risk, and they defer some of this risk to us by purchasing our software.", ko: "레드햇 고객들은 리스크를 관리해야 하며, 우리 소프트웨어를 구매함으로써 그 리스크의 일부를 우리에게 위임합니다." },
-                    { en: "All Red Hat software must meet the requirements outlined in the Secure Software Management Lifecycle (SSML).", ko: "모든 레드햇 소프트웨어는 SSML(안전한 소프트웨어 관리 생명주기)에 명시된 요구사항을 충족해야 합니다." },
-                    { en: "Software supply chain attacks increase every year, so we need to ensure our supply chain is hardened.", ko: "소프트웨어 공급망 공격은 매년 증가하고 있으므로, 우리 공급망이 강화되었는지 확인해야 합니다." }
+                    { en: "Software supply chain attacks increase every year, so we need to ensure our supply chain is hardened.", ko: "소프트웨어 공급망 공격은 매년 증가하고 있으므로, 우리 공급망이 강화되었는지 확인해야 합니다." },
+                    { en: "Any discussion of disabling malware scanning prior to release should be a non-starter.", ko: "릴리스 전 악성코드 스캔 비활성화에 대한 논의는 시작조차 해서는 안됩니다." }
                 ],
                 "Core Security Principles": [
                     { en: "A Security Architecture Review (SAR) is an evaluation process to confirm that a product follows our Secure Design Principles.", ko: "보안 아키텍처 검토(SAR)는 제품이 우리의 '안전한 설계 원칙'을 따르는지 확인하는 평가 과정입니다." },
@@ -241,15 +241,7 @@
                     { en: "The three pillars of information security are Confidentiality, Integrity, and Availability, known as the 'CIA Triad'.", ko: "정보 보안의 세 가지 기둥은 'CIA 트라이어드'로 알려진 기밀성, 무결성, 가용성입니다." },
                     { en: "DevSecOps is the practice of integrating security into every stage of the development lifecycle.", ko: "데브섹옵스는 개발 생명주기의 모든 단계에 보안을 통합하는 관행입니다." }
                 ],
-                "Software, Platforms & Tools": [
-                    { en: "Quarkus is a next-generation Java framework designed for cloud-native environments.", ko: "쿼커스는 클라우드 네이티브 환경을 위해 설계된 차세대 자바 프레임워크입니다." },
-                    { en: "Apache Camel is a versatile open-source integration framework we use to connect heterogeneous systems.", ko: "아파치 카멜은 다양한 시스템을 연결하는 데 사용하는 다목적 오픈소스 통합 프레임워크입니다." },
-                    { en: "Kubernetes is a system for managing container-based applications and empowering new architectures like microservices.", ko: "쿠버네티스는 컨테이너 기반 애플리케이션을 관리하고 마이크로서비스와 같은 새로운 아키텍처를 활성화하는 시스템입니다." },
-                    { en: "Red Hat OpenShift is a comprehensive platform built on Kubernetes for deploying applications at scale.", ko: "레드햇 오픈시프트는 쿠버네티스 기반으로 구축된, 대규모 애플리케이션 배포를 위한 포괄적인 플랫폼입니다." },
-                    { en: "Apicurio Registry is a datastore for sharing standard event schemas and API designs.", ko: "아피큐리오 레지스트리는 표준 이벤트 스키마와 API 설계를 공유하기 위한 데이터 저장소입니다." },
-                    { en: "OpenSSL is a powerful, commercial-grade toolkit for implementing secure communications with SSL/TLS.", ko: "OpenSSL은 SSL/TLS를 사용한 보안 통신을 구현하기 위한 강력하고 상용 등급의 툴킷입니다." }
-                ],
-                "Processes & Standards (SDLC)": [
+                "Explaining SDLC Processes": [
                     { en: "Orientation serves as an entry point for engineering teams into the Red Hat Secure Development Lifecycle (RH-SDL).", ko: "오리엔테이션은 엔지니어링 팀이 레드햇 보안 개발 생명주기(RH-SDL)에 진입하는 시작점 역할을 합니다." },
                     { en: "Threat modeling helps us discover and document known security threats to an application.", ko: "위협 모델링은 애플리케이션에 대한 알려진 보안 위협을 발견하고 문서화하는 데 도움이 됩니다." },
                     { en: "Static Application Security Testing, or SAST, analyzes source code to find weaknesses.", ko: "정적 애플리케이션 보안 테스팅(SAST)은 소스 코드를 분석하여 약점을 찾습니다." },
@@ -257,6 +249,25 @@
                     { en: "Penetration testing puts the auditor in the attacker's perspective to find vulnerabilities.", ko: "모의 해킹은 감사자가 공격자의 관점에서 취약점을 찾는 것입니다." },
                     { en: "Malware detection ensures that the artifacts we ship to our customers are free from any known malware.", ko: "악성코드 탐지는 우리가 고객에게 제공하는 아티팩트가 알려진 악성코드로부터 안전하다는 것을 보장합니다." },
                     { en: "The Security Operating Approval (SOA) process ensures our pipelines comply with industry standards like Executive Order 14028.", ko: "보안 운영 승인(SOA) 프로세스는 우리 파이프라인이 행정 명령 14028과 같은 산업 표준을 준수하도록 보장합니다." }
+                ],
+                "RHEL vs. Java Dependencies": [
+                    { en: "RHEL and Java-based products are fundamentally similar in some ways.", ko: "RHEL과 자바 기반 제품은 어떤 면에서 근본적으로 유사합니다." },
+                    { en: "For both, the software is packaged and distributed as compiled binary content.", ko: "둘 다 소프트웨어는 컴파일된 바이너리 콘텐츠로 패키징되고 배포됩니다." },
+                    { en: "Software can depend on other binary packages, which are referenced as libraries.", ko: "소프트웨어는 라이브러리로 참조되는 다른 바이너리 패키지에 의존할 수 있습니다." },
+                    { en: "However, they substantially differ in how dependencies are managed and distributed.", ko: "하지만, 종속성을 관리하고 배포하는 방식에서 상당한 차이가 있습니다." }
+                ],
+                "IT & UI Concepts": [
+                    { en: "A 'single pane of glass' is a user interface that integrates various tools and data sources into one unified view.", ko: "'단일 창'은 다양한 도구와 데이터 소스를 하나의 통합된 뷰로 통합하는 사용자 인터페이스입니다." },
+                    { en: "Instead of logging into multiple systems, a single pane of glass provides all necessary information in one place.", ko: "여러 시스템에 로그인하는 대신, 단일 창은 필요한 모든 정보를 한 곳에서 제공합니다." },
+                    { en: "The metaphor is that you're looking through one window to see everything, rather than many different windows.", ko: "이 비유는 여러 다른 창을 통해 보는 것이 아니라 하나의 창을 통해 모든 것을 본다는 것입니다." }
+                ],
+                "Software, Platforms & Tools": [
+                    { en: "Quarkus is a next-generation Java framework designed for cloud-native environments.", ko: "쿼커스는 클라우드 네이티브 환경을 위해 설계된 차세대 자바 프레임워크입니다." },
+                    { en: "Apache Camel is a versatile open-source integration framework we use to connect heterogeneous systems.", ko: "아파치 카멜은 다양한 시스템을 연결하는 데 사용하는 다목적 오픈소스 통합 프레임워크입니다." },
+                    { en: "Kubernetes is a system for managing container-based applications and empowering new architectures like microservices.", ko: "쿠버네티스는 컨테이너 기반 애플리케이션을 관리하고 마이크로서비스와 같은 새로운 아키텍처를 활성화하는 시스템입니다." },
+                    { en: "Red Hat OpenShift is a comprehensive platform built on Kubernetes for deploying applications at scale.", ko: "레드햇 오픈시프트는 쿠버네티스 기반으로 구축된, 대규모 애플리케이션 배포를 위한 포괄적인 플랫폼입니다." },
+                    { en: "Apicurio Registry is a datastore for sharing standard event schemas and API designs.", ko: "아피큐리오 레지스트리는 표준 이벤트 스키마와 API 설계를 공유하기 위한 데이터 저장소입니다." },
+                    { en: "OpenSSL is a powerful, commercial-grade toolkit for implementing secure communications with SSL/TLS.", ko: "OpenSSL은 SSL/TLS를 사용한 보안 통신을 구현하기 위한 강력하고 상용 등급의 툴킷입니다." }
                 ]
             }
         };

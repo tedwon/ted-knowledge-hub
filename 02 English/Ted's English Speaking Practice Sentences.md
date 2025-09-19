@@ -5,6 +5,22 @@
 
 ---
 
+
+'**Undertaking**'은 명사로 사용될 때, 보통 '**(힘든) 일, 과제, 사업**'을 의미합니다. 특히 시간이나 노력이 많이 들어가는 중요한 일을 가리킬 때 쓰입니다.
+
+- "Building the new bridge was a massive **undertaking**." (새 다리를 건설하는 것은 대규모의 **과제**였다.)
+    
+- "He showed great courage in his new **undertaking**." (그는 새로운 **사업**에서 큰 용기를 보여주었다.)
+    
+
+"I'm light on the details"는 **일상적으로 사용되는 매우 일반적인 표현**입니다.
+"I can give you the general idea, but **I'm light on the details** right now" (전반적인 아이디어는 말씀드릴 수 있지만, 지금은 세부 사항이 부족합니다)
+이와 비슷한 표현으로는 "I don't have all the details" (모든 세부 사항을 가지고 있지 않다)
+"The plan is still a bit fuzzy" (계획이 아직 불확실하다) 등이 있습니다.
+
+epiphany /어피퍼니/: 출현
+This was an epiphany I had on Wednesday after the ASMW program call. Many of the things we need to do in "option 2" are the same things IBM needs to implement and deliver themselves.
+
 think ahead: 미래를 미리 고려하고 준비하다
 You should always "think ahead" to avoid problems.
 
