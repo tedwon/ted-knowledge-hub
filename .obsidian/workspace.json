@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "00 Daily Note/Saturday, September 20th 2025.md",
+                "file": "Konflux Tekton/Study Tekton.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Saturday, September 20th 2025"
+              "title": "Study Tekton"
             }
           },
           {
@@ -27,15 +27,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02 English/Untitled.md",
+                "file": "OpenShift/OpenShift Console Login.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Untitled"
+              "title": "OpenShift Console Login"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -108,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "00 Daily Note/Saturday, September 20th 2025.md",
+                "file": "OpenShift/OpenShift Console Login.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +119,7 @@
                 "unlinkedCollapsed": false
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Saturday, September 20th 2025"
+              "title": "Backlinks for OpenShift Console Login"
             }
           },
           {
@@ -180,11 +181,17 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "42f07a84a9a2eac6",
+  "active": "c4d303a33b34c474",
   "lastOpenFiles": [
-    "Konflux Tekton/Study Konflux with AI.md",
-    "00 Daily Note/Saturday, September 20th 2025.md",
+    "Konflux Tekton/Tekton on macOS with OpenShift Local.md",
     "Konflux Tekton/Study Tekton with AI.md",
+    "Konflux Tekton/Study Tekton.md",
+    "OpenShift/OpenShift Local crc/OpenShift Local crc.md",
+    "OpenShift/OpenShift Console Login.md",
+    "OpenShift/OpenShift Local crc",
+    "00 Daily Note/Saturday, September 20th 2025.md",
+    "OpenShift",
+    "Konflux Tekton/Study Konflux with AI.md",
     "Konflux Tekton",
     "00 Daily Note/Friday, September 19th 2025.md",
     "00 Daily Note/Thursday, September 18th 2025.md",
@@ -212,10 +219,6 @@
     "00 Daily Note",
     "Daily/Daily Note.md",
     "Untitled.base",
-    "Daily/Daily.md",
-    "01 AI",
-    "Welcome.md",
-    "Untitled.canvas",
-    "02 English"
+    "Untitled.canvas"
   ]
 }
