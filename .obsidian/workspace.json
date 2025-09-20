@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "00 Daily Note/Thursday, September 18th 2025.md",
+                "file": "00 Daily Note/Saturday, September 20th 2025.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Thursday, September 18th 2025"
+              "title": "Saturday, September 20th 2025"
             }
           },
           {
@@ -108,7 +108,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "00 Daily Note/Thursday, September 18th 2025.md",
+                "file": "00 Daily Note/Saturday, September 20th 2025.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
                 "unlinkedCollapsed": false
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Thursday, September 18th 2025"
+              "title": "Backlinks for Saturday, September 20th 2025"
             }
           },
           {
@@ -182,9 +182,14 @@
   },
   "active": "42f07a84a9a2eac6",
   "lastOpenFiles": [
+    "Konflux Tekton/Study Konflux with AI.md",
+    "00 Daily Note/Saturday, September 20th 2025.md",
+    "Konflux Tekton/Study Tekton with AI.md",
+    "Konflux Tekton",
+    "00 Daily Note/Friday, September 19th 2025.md",
+    "00 Daily Note/Thursday, September 18th 2025.md",
     "01 AI/AI Prompts.md",
     "01 AI/Gemini Gems/tedwon Gemini Gems.md",
-    "00 Daily Note/Thursday, September 18th 2025.md",
     "02 English/Ted's English Speaking Practice Sentences.md",
     "00 Daily Note/Wednesday, September 17th 2025.md",
     "Maths.md",
@@ -211,7 +216,6 @@
     "01 AI",
     "Welcome.md",
     "Untitled.canvas",
-    "02 English",
-    "99 Etc/Documentation"
+    "02 English"
   ]
 }
