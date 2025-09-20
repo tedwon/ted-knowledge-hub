@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "OpenShift/OpenShift Console Login.md",
+                "file": "Konflux Tekton/Study Tekton.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "OpenShift Console Login"
+              "title": "Study Tekton"
             }
           }
         ],
@@ -109,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "OpenShift/OpenShift Console Login.md",
+                "file": "Konflux Tekton/Study Tekton.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +119,7 @@
                 "unlinkedCollapsed": false
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for OpenShift Console Login"
+              "title": "Backlinks for Study Tekton"
             }
           },
           {
@@ -183,11 +183,11 @@
   },
   "active": "c4d303a33b34c474",
   "lastOpenFiles": [
+    "OpenShift/OpenShift Console Login.md",
     "Konflux Tekton/Tekton on macOS with OpenShift Local.md",
     "Konflux Tekton/Study Tekton with AI.md",
     "Konflux Tekton/Study Tekton.md",
     "OpenShift/OpenShift Local crc/OpenShift Local crc.md",
-    "OpenShift/OpenShift Console Login.md",
     "OpenShift/OpenShift Local crc",
     "00 Daily Note/Saturday, September 20th 2025.md",
     "OpenShift",
