@@ -2,6 +2,8 @@
 
 * **[[Ted's English Speaking Practice Hub.html]]**
 	* Update the document: https://gemini.google.com/gem/fe6432beae78/f796c0e40959206d
+* Generate a Markdown file by using this html file.
+	* https://gemini.google.com/gem/fe6432beae78/313d1c788696f55e
 
 ---
 
